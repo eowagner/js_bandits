@@ -1,0 +1,69 @@
+body {
+  background-color: #F7F7F7;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+.div_side_to_side {
+	float: left;
+	margin-right: 1em;
+}
+
+table, th, td {
+    border: 0px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 3px;
+}
+
+.widgets {
+  padding:2em;
+}
+
+input[name="arm_mean"] {
+	width: 4em;
+}
+
+input[name="arm_var"] {
+	width: 4em;
+}
+
+input[class="belief_text"] {
+	width: 2em;
+}
+
+.div_arm_rate_spacer {
+	width: 1em;
+}
+
+.div_button_spacer {
+	width: 1em;
+}
+
+.control_button {
+	width: 125px;
+	font-size: 16px;
+}
+
+.div_vertical_spacer {
+	height: 1em;
+}
+
+.div_vertical_spacer_small {
+	height: .3em;
+}
+
+.page_center_div {
+	width: 1400px;
+	margin: 0 auto;
+}
+
+.in_table_p {
+	margin-left: 1em;
+	margin-top: 0em;
+	margin-bottom: .5em;
+}

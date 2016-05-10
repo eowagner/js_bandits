@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<!--
+  Copyright (c) 2016, Elliott Wagner
+-->
+
+<html>
+  <head>
+    <script src="bandit-problems/slot_machines.js"></script>
+    <script src="bandit-problems/agents.js"></script>
+    <script src="bandit-problems/social_networks.js"></script>
+    <script src="paint_network.js"></script>
+    <script src="plotting.js"></script>
+    <script src="bandit-problems/probability.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+
+  <body>
+
+  <div class="page_center_div">
+
+  <div name="display_div" class="div_side_to_side">
+   <canvas id="myCanvas" width="900" height="900" style="border:1px solid #000000;"></canvas>
+  </div>
+
+<div name="widgets" class="div_side_to_side">
+    <fieldset class="field_group"><legend>Network Structure</legend>
+      <table>
+        <tr><td><input type="radio" name="net_radio" value="complete" onchange="reset()" checked> Complete </td><td><input type="radio" name="net_radio" value="cycle" onchange="reset()" > Cycle</td></tr>
+        <tr><td><input type="radio" name="net_radio" value="wheel" onchange="reset()" > Wheel</td><td><input type="radio" name="net_radio" value="line" onchange="reset()" > Line</td></tr>
+        <tr><td><input type="radio" name="net_radio" value="star" onchange="reset()" > Star</td><td><input type="radio" name="net_radio" value="two_cliques" onchange="reset()" > Two cliques</td></tr>
+      </table>
+    </fieldset>
+
+    <div class="div_vertical_spacer"></div>
+
+    <table>
+    <tr><td>Number of agents: </td><td><div style="width:1em"><span id="num_agents_span">9</span> </div></td><td><input type="range" id="num_agents_input" min="4" max="20" value="9" step="1" onchange="agentsSlide(this.value)" oninput="agentsSlide(this.value)"></td></tr>
+
+    <tr><td><div class="div_vertical_spacer_small"></div></td></tr>
+
+    <tr><td>Number of arms: </td><td><div style="width:1em"><span id="num_arms_span">2</span> </div></td><td> <input type="range" id="num_arms_input" min="2" max="7" value="2" step="1" onchange="armSlide(this.value)" oninput="armSlide(this.value)"></td></tr>
+    </table>
+
+    <div class="div_vertical_spacer_small"></div>
+
+    <table>
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(153,0,0);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_0" value="0"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_0" value="10"></td></tr>
+
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(0,61,153);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_1" value="1"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_1" value="10"></td></tr>
+
+
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(0,153,61);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_2" value="2" disabled="true"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_2" value="10" disabled="true"></td></tr>
+
+
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(122,0,153);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_3" value="3" disabled="true"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_3" value="10" disabled="true"></td></tr>
+
+
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(255,128,0);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_4" value="4" disabled="true"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_4" value="10" disabled="true"></td></tr>
+
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(51, 204, 255);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_5" value="5" disabled="true"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_5" value="10" disabled="true"></td></tr>
+
+      <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(255, 153, 204);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_6" value="6" disabled="true"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_6" value="10" disabled="true"></td></tr>
+    </table>
+
+    
+    <div class="div_vertical_spacer"></div>
+
+    <fieldset class="field_group"><legend>Learning Problem</legend>
+        <table width="400px">
+          <tr><td><input type="radio" name="setup_radio" value="known_variance" onchange="reset()" checked></td><td>Unknown &mu; and known &sigma;<sup>2</sup> </td></tr>
+          <tr><td></td><td><p class="in_table_p">Agents learn about each arm's &mu; by observing the payouts yielded by that arm.</p>
+          <p class="in_table_p">Agents update their beliefs using Bayes' Theorem</p>
+          <p class="in_table_p">Agents' initial beliefs are given by the improper flat prior (i.e., p(&mu;) is proportional to a constant).</p>
+          <p class="in_table_p">Agents choose the arm with the greatest E(&mu;).</p>
+          </td></tr>
+
+          <tr><td><input type="radio" name="setup_radio" value="unknown_variance" onchange="reset()"></td><td>Unknown &mu; and unknown &sigma;<sup>2</sup> </td></tr>
+          <tr><td></td><td> <p class="in_table_p">Agents learn about each arm's &mu; and &sigma;<sup>2</sup> by observing the payouts yielded by that arm. </p>
+          <p class="in_table_p"> Agents update their beliefs  using Bayes' Theorem. </p>
+          <p class="in_table_p"> Agents' initial beliefs are given by the improper prior p(&mu;,&sigma;<sup>2</sup>) &prop; (&sigma;<sup>2</sup>)<sup>-1</sup>. </p>
+          <p class="in_table_p">Agents choose the arm with the greatest E(&mu;).</p>
+          </td></tr>
+
+          <!--
+          <tr><td></td><td> Agents' initial beliefs are given by the improper flat prior (i.e., p(&mu;) is proportional to a constant). </td></tr>
+          <tr><td></td><td> Agents update their beliefs by using Bayes' Theorem. </td></tr>
+          <tr><td></td><td> Agents choose the arm that they expect has the greatest &mu;. </td></tr>
+           <tr><td></td><td> Agents beliefs about &mu; are normally distributed according to N(&mu;<sub>0</sub>,&tau;<sub>0</sub><sup>2</sup>). </td></tr> 
+
+          <tr><td><input type="radio" name="setup_2" value="unknown_variance" onchange="reset()" checked></td><td>Unknown &mu; and unknown &sigma;<sup>2</sup> </td></tr>
+          <tr><td></td><td> Agents learn about each arm's &mu; and &sigma;<sup>2</sup> by observing the payouts yielded by that arm. </td></tr>
+          <tr><td></td><td> Agents' initial beliefs are given by the improper prior p(&mu;,&sigma;<sup>2</sup>) &prop; (&sigma;<sup>2</sup>)<sup>-1</sup>. </td></tr>
+          <tr><td></td><td> Agents update their beliefs by using Bayes' Theorem. </td></tr>
+          -->
+        </table>
+    </fieldset>
+    
+
+    <div class="div_vertical_spacer"></div>
+
+    <table width="100%">
+      <tr><td><div class="div_button_spacer"></div><td><button class="control_button" onclick="reset()">Reset</button></td>
+      <td><button class="control_button" onclick="stepForward()">Step Forward</button></td><td><div class="div_button_spacer"></div></td></tr>
+    </table>
+
+    <div class="div_vertical_spacer"></div>
+
+     Source: <a href="https://github.com/eowagner/js_network_bandits">https://github.com/eowagner/js_network_bandits</a>
+
+
+   </div>
+
+  
+
+   </div>
+
+
+   <script src="main.js"></script>
+
+
+  </body>
+</html>
