@@ -7,17 +7,15 @@ const insideRadii = [.4,.5,.6,.62,.64];
 const outsideRadii = [.75,.8,.83,.84,.85];
 
 // Canvas Setup 
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+var canvas;
+var ctx;
 
-var halfHeight = canvas.height/2;
-var halfWidth = canvas.width/2;
+var halfHeight;
+var halfWidth;
 
-var radiusInside = insideRadii[0]*halfHeight;
-var radiusOutside = outsideRadii[0]*halfHeight;
-var plotWidth = plotWidths[0];
-
-ctx.transform(1,0,0,1,halfWidth,halfHeight);
+var radiusInside;
+var radiusOutside;
+var plotWidth;
 
 // Simulation Setup
 var knownVariance = true;
@@ -39,6 +37,24 @@ for (var i=0; i<numAgents; i++) {
 
 var adjMatrix = makeCompleteGraph(numAgents);
 var net = new Network(agents,machines,adjMatrix);
+
+//Load and paint
+$( document ).ready(function() {    
+	canvas = document.getElementById("myCanvas");
+	ctx = canvas.getContext("2d");
+
+	halfHeight = canvas.height/2;
+	halfWidth = canvas.width/2;
+
+	radiusInside = insideRadii[0]*halfHeight;
+	radiusOutside = outsideRadii[0]*halfHeight;
+	plotWidth = plotWidths[0];
+
+	ctx.transform(1,0,0,1,halfWidth,halfHeight);
+
+	reset();
+	updateDisplay(ctx,net,radiusInside,radiusOutside,[plotWidth,plotWidth]);
+});
 
 function paintAgentBeliefsAt(agent,ctx,centerPoint,dimensions) {
 	if (knownVariance)
@@ -288,6 +304,3 @@ function stepForward() {
 	
 	updateDisplay(ctx,net,radiusInside,radiusOutside,[plotWidth,plotWidth]);
 }
-
-reset();
-updateDisplay(ctx,net,radiusInside,radiusOutside,[plotWidth,plotWidth]);
