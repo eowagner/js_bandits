@@ -20,6 +20,8 @@
 
     <tr><td><div class="div_vertical_spacer_small"></div></td></tr>
 
+    <tr><td>Arms payout according to:</td><td><div style="width:1em"><select id="bandit-type"><option value="normal">Normal distribution</option><option name="bernoulli">Bernoulli distribution</option></select></div></tr>
+
     <tr><td>Number of arms: </td><td><div style="width:1em"><span id="num_arms_span">2</span> </div></td><td> <input type="range" id="num_arms_input" min="2" max="7" value="2" step="1" onchange="armSlide(this.value)" oninput="armSlide(this.value)"></td></tr>
     </table>
 
@@ -44,7 +46,7 @@
       <tr><td><div class="div_arm_rate_spacer"></div></td><td><div style="width:50px;height:15px;border:0px;background-color: rgb(255, 153, 204);"></div></td><td>arm mean (&mu;): <input type="text" name="arm_mean" id="arm_mean_6" value="6" disabled="true"> &nbsp;&nbsp; variance (&sigma;<sup>2</sup>): <input type="text" name="arm_var" id="arm_var_6" value="10" disabled="true"></td></tr>
     </table>
 
-    
+
     <div class="div_vertical_spacer"></div>
 
     <fieldset class="field_group"><legend>Learning Problem</legend>
@@ -64,7 +66,6 @@
           </td></tr>
         </table>
     </fieldset>
-    
 
     <div class="div_vertical_spacer"></div>
 
@@ -73,9 +74,6 @@
       <td><button class="control_button" onclick="stepForward()">Step Forward</button></td><td><div class="div_button_spacer"></div></td></tr>
     </table>
 
-    <div class="div_vertical_spacer"></div>
-
-     Source: <a href="https://github.com/eowagner/js_bandits">https://github.com/eowagner/js_bandits</a>
-
-
+    <!-- <div class="div_vertical_spacer"></div> -->
+     <!-- Source: <a href="https://github.com/eowagner/js_bandits">https://github.com/eowagner/js_bandits</a> -->
    </div>

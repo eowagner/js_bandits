@@ -41,6 +41,7 @@ var net = new Network(agents,machines,adjMatrix);
 //Load and paint
 $( document ).ready(function() {    
 	canvas = document.getElementById("myCanvas");
+
 	ctx = canvas.getContext("2d");
 
 	halfHeight = canvas.height/2;
